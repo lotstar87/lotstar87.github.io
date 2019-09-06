@@ -46,13 +46,14 @@ certbot은 자동적으로 NGINX SSL/TLS 설정을 할 수 있다. 이것은 NGI
 당신이 새로 NGINX를 설치하여 시작한다고 가정하면, 텍스트 에디터를 이용하여 /etc/nginx/conf.d 디렉토리에 domain-name.conf를 생성한다 (이 예에서는, www.example.com.conf이다).
 
 Specify your domain name (and variants, if any) with the server_name directive:
-
+```nginx
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
     root /var/www/html;
     server_name example.com www.example.com;
 }
+```
 Save the file, then run this command to verify the syntax of your configuration and restart NGINX:
 
 $ nginx -t && nginx -s reload
