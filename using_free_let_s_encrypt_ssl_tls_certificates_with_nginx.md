@@ -1,5 +1,5 @@
 # Using Free Let’s Encrypt SSL/TLS Certificates with NGINX     
-> (original post: https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)
+> (원글: https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)
 
 Editor – The blog post detailing the original procedure for using Let’s Encrypt with NGINX (from February 2016) redirects here. The instructions in that post are deprecated.
 
@@ -13,38 +13,37 @@ Let’s Encrypt is a free, automated, and open certificate authority (CA). Yes, 
 
 In this blog post, we cover how to use the Let’s Encrypt client to generate certificates and how to automatically configure NGINX Open Source and NGINX Plus to use them.
 
-How Let’s Encrypt Works
+Let’s Encrypt의 동작
 Before issuing a certificate, Let’s Encrypt validates ownership of your domain. The Let’s Encrypt client, running on your host, creates a temporary file (a token) with the required information in it. The Let’s Encrypt validation server then makes an HTTP request to retrieve the file and validates the token, which verifies that the DNS record for your domain resolves to the server running the Let’s Encrypt client.
 
-Prerequisites
-Before starting with Let’s Encrypt, you need to:
+전제조건
+Let's Encrypt를 이용하여 시작하기 전에, 필요사항: 
 
-Have NGINX or NGINX Plus installed.
-Own or control the registered domain name for the certificate. If you don’t have a registered domain name, you can use a domain name registrar, such as GoDaddy or dnsexit.
-Create a DNS record that associates your domain name and your server’s public IP address.
-Now you can easily set up Let’s Encrypt with NGINX Open Source or NGINX Plus (for ease of reading, from now on we’ll refer simply to NGINX).
+NGINX 또는 NGINX Plus의 설치.
+인증서를 위해 등록된 도메인네임의 보유 혹은 제어. 만약 등록된 도메인네임이 없으면, GoDaddy 혹은 dnsexit 등을 이용하여 등록할 수 있다.
+서버의 공용 IP주소와 도메인네임을 연결하는 DNS 레코드를 만든다.
+이제 NGINX 혹은 NGINX Plus에 대한 Let's Encrypt 설정을 쉽게할 수 있다.
 
-Note: We tested the procedure outlined in this blog post on Ubuntu 16.04 (Xenial).
+Note: 이 포스트에 설명된 절차는 Ubuntu 16.04 (Xenial)에서 테스트되었음.
 
-1. Download the Let’s Encrypt Client 
-First, download the Let’s Encrypt client, certbot:
+1. Let’s Encrypt Client를 다운로드
+첫째, Let’s Encrypt client인 certbot을 다운로드:
     
-1. Create the certbot repository:
+1. certbot 저장소 생성:
 ```bash
 $ add-apt-repository ppa:certbot/certbot
 ```
-2. Install certbot:
-
+2. certbot 설치:
 ```bash
 $ apt-get update
 $ apt-get install python-certbot-nginx
 ```
-The Let’s Encrypt client is now ready to use.
+이제 Let’s Encrypt client를 사용할 준비가 되었음.
 
-2. Set Up NGINX
-certbot can automatically configure NGINX for SSL/TLS. It looks for and modifies the server block in your NGINX configuration that contains a server_name directive with the domain name you’re requesting a certificate for. In our example, the domain is www.example.com.
+2. NGINX 설정
+certbot은 자동적으로 NGINX SSL/TLS 설정을 할 수 있다. 이것은 NGINX 설정에서 당신이 인증서를 요청한 도메인네임에 대한 server_name 지시자를 포함하는 서버블럭을 찾아 수정한다. 이 예에서, 도메인은 www.example.com이다.
 
-Assuming you’re starting with a fresh NGINX install, use a text editor to create a file in the /etc/nginx/conf.d directory named domain‑name.conf (so in our example, www.example.com.conf).
+당신이 새로 NGINX를 설치하여 시작한다고 가정하면, 텍스트 에디터를 이용하여 /etc/nginx/conf.d 디렉토리에 domain-name.conf를 생성한다 (이 예에서는, www.example.com.conf이다).
 
 Specify your domain name (and variants, if any) with the server_name directive:
 
