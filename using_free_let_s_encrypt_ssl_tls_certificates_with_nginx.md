@@ -1,4 +1,4 @@
-# Using Free Let’s Encrypt SSL/TLS Certificates with NGINX     
+# NGINX와 Let’s Encrypt를 이용하여 무료 SSL/TLS 인증하기   
 > (원글: https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)
 
 Editor – The blog post detailing the original procedure for using Let’s Encrypt with NGINX (from February 2016) redirects here. The instructions in that post are deprecated.
