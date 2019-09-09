@@ -45,7 +45,7 @@ certbot은 자동적으로 NGINX SSL/TLS 설정을 할 수 있다. 이것은 NGI
 
 당신이 새로 NGINX를 설치하여 시작한다고 가정하면, 텍스트 에디터를 이용하여 **/etc/nginx/conf.d** 디렉토리에 ***domain-name.conf***를 생성한다 (이 예에서는, **www\.example.com.conf**이다).
 
-Specify your domain name (and variants, if any) with the server_name directive:
+server_name 지시자에 당신의 도메인네임을 지정:
 ```nginx
 server {
     listen 80 default_server;
@@ -54,28 +54,29 @@ server {
     server_name example.com www.example.com;
 }
 ```
-Save the file, then run this command to verify the syntax of your configuration and restart NGINX:
 
+파일을 저장하고, 다음 커맨드를 실행하여 설정의 문법 확인을 하고 NGINX를 재시작:
 ```bash
 $ nginx -t && nginx -s reload
 ```
 
-### 3. Obtain the SSL/TLS Certificate
-The NGINX plug‑in for certbot takes care of reconfiguring NGINX and reloading its configuration whenever necessary.
+### 3. SSL/TLS 인증서 획득하기
+NGINX plugin for certot은 NGINX를 재설정하고 필요할 때 마다 설정을 다시 불러온다.
 
 Run the following command to generate certificates with the NGINX plug‑in:
-
+```bash
 $ sudo certbot --nginx -d example.com -d www.example.com
+```
 Respond to prompts from certbot to configure your HTTPS settings, which involves entering your email address and agreeing to the Let’s Encrypt terms of service.
 
 When certificate generation completes, NGINX reloads with the new settings. certbot generates a message indicating that certificate generation was successful and specifying the location of the certificate on your server.
 
+```bash
 Congratulations! You have successfully enabled https://example.com and https://www.example.com 
 
 -------------------------------------------------------------------------------------
 IMPORTANT NOTES: 
 
-```bash
 Congratulations! Your certificate and chain have been saved at: 
 /etc/letsencrypt/live/example.com/fullchain.pem 
 Your key file has been saved at: 
