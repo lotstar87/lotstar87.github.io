@@ -13,20 +13,20 @@ Let’s Encrypt is a free, automated, and open certificate authority (CA). Yes, 
 
 In this blog post, we cover how to use the Let’s Encrypt client to generate certificates and how to automatically configure NGINX Open Source and NGINX Plus to use them.
 
-Let’s Encrypt의 동작
+### Let’s Encrypt의 동작
 Before issuing a certificate, Let’s Encrypt validates ownership of your domain. The Let’s Encrypt client, running on your host, creates a temporary file (a token) with the required information in it. The Let’s Encrypt validation server then makes an HTTP request to retrieve the file and validates the token, which verifies that the DNS record for your domain resolves to the server running the Let’s Encrypt client.
 
-전제조건
+### 전제조건
 Let's Encrypt를 이용하여 시작하기 전에, 필요사항: 
+- NGINX 또는 NGINX Plus의 설치.
+- 인증서를 위해 등록된 도메인네임의 보유 혹은 제어. 만약 등록된 도메인네임이 없으면, GoDaddy 혹은 dnsexit 등을 이용하여 등록할 수 있다.
+- 서버의 공용 IP주소와 도메인네임을 연결하는 DNS 레코드를 만든다.
 
-NGINX 또는 NGINX Plus의 설치.
-인증서를 위해 등록된 도메인네임의 보유 혹은 제어. 만약 등록된 도메인네임이 없으면, GoDaddy 혹은 dnsexit 등을 이용하여 등록할 수 있다.
-서버의 공용 IP주소와 도메인네임을 연결하는 DNS 레코드를 만든다.
 이제 NGINX 혹은 NGINX Plus에 대한 Let's Encrypt 설정을 쉽게할 수 있다.
 
-Note: 이 포스트에 설명된 절차는 Ubuntu 16.04 (Xenial)에서 테스트되었음.
+**Note**: 이 포스트에 설명된 절차는 Ubuntu 16.04 (Xenial)에서 테스트되었음.
 
-1. Let’s Encrypt Client를 다운로드
+### 1. Let’s Encrypt Client를 다운로드
 첫째, Let’s Encrypt client인 certbot을 다운로드:
     
 1. certbot 저장소 생성:
@@ -40,7 +40,7 @@ $ apt-get install python-certbot-nginx
 ```
 이제 Let’s Encrypt client를 사용할 준비가 되었음.
 
-2. NGINX 설정
+### 2. NGINX 설정 
 certbot은 자동적으로 NGINX SSL/TLS 설정을 할 수 있다. 이것은 NGINX 설정에서 당신이 인증서를 요청한 도메인네임에 대한 server_name 지시자를 포함하는 서버블럭을 찾아 수정한다. 이 예에서, 도메인은 www.example.com이다.
 
 당신이 새로 NGINX를 설치하여 시작한다고 가정하면, 텍스트 에디터를 이용하여 /etc/nginx/conf.d 디렉토리에 domain-name.conf를 생성한다 (이 예에서는, www.example.com.conf이다).
@@ -57,7 +57,7 @@ server {
 Save the file, then run this command to verify the syntax of your configuration and restart NGINX:
 
 $ nginx -t && nginx -s reload
-3. Obtain the SSL/TLS Certificate
+### 3. Obtain the SSL/TLS Certificate
 The NGINX plug‑in for certbot takes care of reconfiguring NGINX and reloading its configuration whenever necessary.
 
 Run the following command to generate certificates with the NGINX plug‑in:
@@ -72,15 +72,18 @@ Congratulations! You have successfully enabled https://example.com and https://w
 -------------------------------------------------------------------------------------
 IMPORTANT NOTES: 
 
+```bash
 Congratulations! Your certificate and chain have been saved at: 
 /etc/letsencrypt/live/example.com/fullchain.pem 
 Your key file has been saved at: 
 /etc/letsencrypt/live/example.com//privkey.pem
 Your cert will expire on 2017-12-12.
+```
 Note: Let’s Encrypt certificates expire after 90 days (on 2017-12-12 in the example). For information about automatically renenwing certificates, see Automatic Renewal of Let’s Encrypt Certificates below.
 
 If you look at domain‑name.conf, you see that certbot has modified it:
 
+```nginx
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -100,23 +103,27 @@ server {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 }
-4. Automatically Renew Let’s Encrypt Certificates
+```
+
+### 4. Automatically Renew Let’s Encrypt Certificates
 Let’s Encrypt certificates expire after 90 days. We encourage you to renew your certificates automatically. Here we add a cron job to an existing crontab file to do this.
 
-Open the crontab file.
+1. Open the crontab file.
 
+```bash
 $ crontab -e
-Add the certbot command to run daily. In this example, we run the command every day at noon. The command checks to see if the certificate on the server will expire within the next 30 days, and renews it if so. The --quiet directive tells certbot not to generate output.
+```
+2. Add the certbot command to run daily. In this example, we run the command every day at noon. The command checks to see if the certificate on the server will expire within the next 30 days, and renews it if so. The --quiet directive tells certbot not to generate output.
 
+```bash
 0 12 * * * /usr/bin/certbot renew --quiet
+```
 Save and close the file. All installed certificates will be automatically renewed and reloaded.
 
-Summary
+### Summary
 We’ve installed the Let’s Encrypt agent to generate SSL/TLS certificates for a registered domain name. We’ve configured NGINX to use the certificates and set up automatic certificate renewals. With Let’s Encrypt certificates for NGINX and NGINX Plus, you can have a simple, secure website up and running within minutes.
 
 To try out Let’s Encrypt with NGINX Plus yourself, start your free 30-day trial today or contact us to discuss your use cases.
 
 Cover image Microservices: From Design to Deployment
 The complete guide to microservices development
-
-DOWNLOAD NOW
