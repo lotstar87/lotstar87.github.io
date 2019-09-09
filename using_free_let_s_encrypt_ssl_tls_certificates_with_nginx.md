@@ -29,7 +29,7 @@ Let's Encrypt를 이용하여 시작하기 전에, 필요사항:
 ### 1. Let’s Encrypt Client를 다운로드
 첫째, Let’s Encrypt client인 certbot을 다운로드:
     
-1. certbot 저장소 생성:
+1. **certbot** 저장소 생성:
 ```bash
 $ add-apt-repository ppa:certbot/certbot
 ```
@@ -41,9 +41,9 @@ $ apt-get install python-certbot-nginx
 이제 Let’s Encrypt client를 사용할 준비가 되었음.
 
 ### 2. NGINX 설정 
-certbot은 자동적으로 NGINX SSL/TLS 설정을 할 수 있다. 이것은 NGINX 설정에서 당신이 인증서를 요청한 도메인네임에 대한 server_name 지시자를 포함하는 서버블럭을 찾아 수정한다. 이 예에서, 도메인은 www.example.com이다.
+certbot은 자동적으로 NGINX SSL/TLS 설정을 할 수 있다. 이것은 NGINX 설정에서 당신이 인증서를 요청한 도메인네임에 대한 server_name 지시자를 포함하는 서버블럭을 찾아 수정한다. 이 예에서, 도메인은 **www\.example.com**이다.
 
-당신이 새로 NGINX를 설치하여 시작한다고 가정하면, 텍스트 에디터를 이용하여 /etc/nginx/conf.d 디렉토리에 domain-name.conf를 생성한다 (이 예에서는, www.example.com.conf이다).
+당신이 새로 NGINX를 설치하여 시작한다고 가정하면, 텍스트 에디터를 이용하여 **/etc/nginx/conf.d** 디렉토리에 ***domain-name.conf***를 생성한다 (이 예에서는, **www\.example.com.conf**이다).
 
 Specify your domain name (and variants, if any) with the server_name directive:
 ```nginx
@@ -56,7 +56,10 @@ server {
 ```
 Save the file, then run this command to verify the syntax of your configuration and restart NGINX:
 
+```bash
 $ nginx -t && nginx -s reload
+```
+
 ### 3. Obtain the SSL/TLS Certificate
 The NGINX plug‑in for certbot takes care of reconfiguring NGINX and reloading its configuration whenever necessary.
 
@@ -79,9 +82,9 @@ Your key file has been saved at:
 /etc/letsencrypt/live/example.com//privkey.pem
 Your cert will expire on 2017-12-12.
 ```
-Note: Let’s Encrypt certificates expire after 90 days (on 2017-12-12 in the example). For information about automatically renenwing certificates, see Automatic Renewal of Let’s Encrypt Certificates below.
+**Note**: Let’s Encrypt certificates expire after 90 days (on 2017-12-12 in the example). For information about automatically renenwing certificates, see Automatic Renewal of Let’s Encrypt Certificates below.
 
-If you look at domain‑name.conf, you see that certbot has modified it:
+If you look at ***domain‑name.conf***, you see that certbot has modified it:
 
 ```nginx
 server {
@@ -106,9 +109,9 @@ server {
 ```
 
 ### 4. Automatically Renew Let’s Encrypt Certificates
-Let’s Encrypt certificates expire after 90 days. We encourage you to renew your certificates automatically. Here we add a cron job to an existing crontab file to do this.
+Let’s Encrypt certificates expire after 90 days. We encourage you to renew your certificates automatically. Here we add a cron job to an existing **crontab** file to do this.
 
-1. Open the crontab file.
+1. Open the **crontab** file.
 
 ```bash
 $ crontab -e
