@@ -71,7 +71,7 @@ Respond to prompts from certbot to configure your HTTPS settings, which involves
 
 When certificate generation completes, NGINX reloads with the new settings. certbot generates a message indicating that certificate generation was successful and specifying the location of the certificate on your server.
 
-```bash
+```terminal
 Congratulations! You have successfully enabled https://example.com and https://www.example.com 
 
 -------------------------------------------------------------------------------------
